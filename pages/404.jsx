@@ -1,8 +1,10 @@
 import React from "react";
 import { Box, Button, Container, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import { useRouter } from "next/router";
 
 export default function Error() {
+  const router = useRouter();
   return (
     <Box
       sx={{
@@ -19,7 +21,14 @@ export default function Error() {
             <Typography variant="h6">
               The page you’re looking for doesn’t exist.
             </Typography>
-            <Button variant="contained">Back Home</Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                router.push("/confirmation");
+              }}
+            >
+              Back Home
+            </Button>
           </Grid>
           <Grid xs={6}>
             <img

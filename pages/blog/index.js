@@ -141,6 +141,7 @@ const index = () => {
               </CardActions>
               <CardActions sx={{ justifyContent: "center" }}>
                 <Button
+                  disabled={!product.stock}
                   size="small"
                   variant="contained"
                   color="success"
@@ -159,7 +160,7 @@ const index = () => {
             onClose={handleClose}
             anchorOrigin={{
               vertical: "top",
-              horizontal: "right", // Set 'right' for horizontal position
+              horizontal: "right",
             }}
           >
             <Alert

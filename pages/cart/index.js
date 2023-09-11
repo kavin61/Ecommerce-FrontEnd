@@ -11,10 +11,11 @@ import {
   Paper,
 } from "@mui/material";
 import { addCartItem, getCart, removeItem } from "@/features/cart/cartSlice";
+import { useRouter } from "next/router";
 
 export const index = () => {
   const { cartItems } = useSelector((state) => state.counter);
-
+  const router = useRouter();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCart());
@@ -56,10 +57,10 @@ export const index = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Product</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Price</TableCell>
-                  <TableCell>Remove</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Product</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Price</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Remove</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -88,7 +89,6 @@ export const index = () => {
                         </Button>
                       </ButtonGroup>
                     </TableCell>
-                    <TableCell>{/* Calculate total for this item */}</TableCell>
                   </TableRow>
                 ))}{" "}
                 <TableRow>
@@ -99,10 +99,24 @@ export const index = () => {
                     Total Cost:
                   </TableCell>
                   <TableCell
-                    colSpan={2}
+                    colSpan={1}
                     style={{ color: "darkred", fontWeight: "bold" }}
                   >
                     {totalCost}
+                  </TableCell>
+                  <TableCell colSpan={1}>
+                    <Button
+                      variant="contained"
+                      style={{
+                        backgroundColor: "darkorange",
+                        borderRadius: "20px",
+                      }}
+                      onClick={() => {
+                        router.push("/confirmation");
+                      }}
+                    >
+                      Checkout
+                    </Button>
                   </TableCell>
                 </TableRow>
               </TableBody>

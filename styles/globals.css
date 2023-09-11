@@ -2,3 +2,24 @@
   margin: 0;
   padding: 0;
 }
+/* #nprogress .bar {
+  background: rgb(182, 113, 10) !important;
+  padding: 0 5px !important;
+  height: 4px !important;
+}
+#nprogress .peg {
+  box-shadow: 0 0 100px rgb(212, 226, 20), 0 0 55px rgb(10, 182, 182);
+} */
+#nprogress .bar {
+  background: rgb(25, 146, 228) !important;
+  padding: 0 5px !important;
+  height: 6px !important;
+  border-radius: 20px !important;
+}
+/* #nprogress .peg {
+  box-shadow: 0 0 100px rgb(29, 196, 71), 0 0 55px rgb(173, 24, 116);
+}
+#nprogress .spinner-icon {
+  border-top-color: rgb(126, 51, 196);
+  border-left-color: rgb(46, 184, 53);
+} */

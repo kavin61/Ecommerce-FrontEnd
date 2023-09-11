@@ -10,9 +10,12 @@ import { Box, Grid } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import { useRouter } from "next/router";
+import { getCart } from "@/features/cart/cartSlice";
+import { useDispatch } from "react-redux";
 
 export default function ImgMediaCard() {
   const [product, setProduct] = useState([]);
+  const dispatch = useDispatch( );
   const router = useRouter();
   useEffect(() => {
     getProduct();
@@ -20,8 +23,11 @@ export default function ImgMediaCard() {
   async function getProduct() {
     let res = await fetch("http://localhost:3001/api/v1/book/product");
     let jsonData = await res.json();
-    setProduct(jsonData); 
+    setProduct(jsonData);
   }
+  useEffect(() => {
+    dispatch(getCart());
+  }, []);
 
   return (
     <center>

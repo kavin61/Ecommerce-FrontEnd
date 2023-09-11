@@ -48,7 +48,6 @@ function ResponsiveAppBar() {
     if (typeof window !== "undefined") {
       var getName = localStorage.getItem("userName");
       setLocalName(getName);
-      // Use 'name' here
     }
   }, []);
 
@@ -67,7 +66,9 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="/home"
+            onClick={() => {
+              router.push("/home");
+            }}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -76,6 +77,7 @@ function ResponsiveAppBar() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             STORE

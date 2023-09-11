@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Provider } from "react-redux";
 import { store } from "@/app/store";
+import ProgressLoader from "@/components/ProgressLoader";
+import Footer from "@/components/Footer";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const excludeHeaderPaths = ["/"];
+  const excludeHeaderPaths = ["/", "/shipping"];
+  const excludeFooterPaths = ["/"];
   const shouldRenderHeader = !excludeHeaderPaths.includes(router.pathname);
-  const publicRoutes = ["/"];
-  const isPublicRoute = publicRoutes.includes(router.pathname);
+  const shouldRenderFooter = !excludeFooterPaths.includes(router.pathname);
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -18,7 +20,9 @@ export default function App({ Component, pageProps }) {
       const token = localStorage.getItem("token");
       return !!token;
     };
-
+    if (isAuthenticated) {
+      router.push(router.pathname);
+    }
     if (router.pathname !== "/" && !isAuthenticated()) {
       router.push("/");
     } else {
@@ -30,7 +34,13 @@ export default function App({ Component, pageProps }) {
     <>
       <Provider store={store}>
         {shouldRenderHeader && authenticated && <Header />}
-        {authenticated ? <Component {...pageProps} /> : null}
+        {authenticated ? (
+          <>
+            <ProgressLoader />
+            <Component {...pageProps} />
+          </>
+        ) : null}
+        {/* {shouldRenderFooter && <Footer />} */}
       </Provider>
     </>
   );
