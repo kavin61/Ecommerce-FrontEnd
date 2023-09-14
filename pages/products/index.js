@@ -15,14 +15,20 @@ import { useDispatch } from "react-redux";
 
 export default function ImgMediaCard() {
   const [product, setProduct] = useState([]);
-  const dispatch = useDispatch( );
+  const dispatch = useDispatch();
   const router = useRouter();
   useEffect(() => {
     getProduct();
   }, []);
+
+  let token = localStorage.getItem("userId");
+
+  console.log(token, "token.......");
+
   async function getProduct() {
-    let res = await fetch("http://localhost:3001/api/v1/book/product");
+    let res = await fetch(`http://localhost:3001/payment/subs/${token}`);
     let jsonData = await res.json();
+    console.log(jsonData, "88888888888....");
     setProduct(jsonData);
   }
   useEffect(() => {
@@ -90,7 +96,9 @@ export default function ImgMediaCard() {
                         }}
                       >
                         <Typography variant="h5">
-                          $ {item.actualPrice}
+                          $
+                          {item.actualPrice -
+                            (item.actualPrice * item.discountedPercent) / 100}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           {item.discountedPercent}% OFF

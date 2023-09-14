@@ -23,10 +23,13 @@ const index = () => {
   const dispatch = useDispatch();
   const { id } = router.query;
 
+  console.log(product, "kkkkkkkkkkkkkkkkk");
+
   async function getProductById(productId) {
+    let userId = localStorage.getItem("userId");
     try {
       const res = await fetch(
-        `http://localhost:3001/api/v1/book/product/${productId}`
+        `http://localhost:3001/api/v1/book/product/${productId}/${userId}`
       );
       const jsonData = await res.json();
 
@@ -131,11 +134,13 @@ const index = () => {
               >
                 <Typography>Buy</Typography>
                 <Typography>
-                  RS.{product.actualPrice}{" "}
+                  RS.{" "}
+                  {product.actualPrice -
+                    (product.actualPrice * product.discountedPercent) / 100}
                   <span
                     style={{ textDecoration: "line-through", color: "red" }}
                   >
-                    (RS.{originalAmount})
+                    (RS.{product.actualPrice})
                   </span>
                 </Typography>
               </CardActions>

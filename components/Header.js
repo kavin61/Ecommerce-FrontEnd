@@ -18,7 +18,7 @@ import ShoppingCartTwoToneIcon from "@mui/icons-material/ShoppingCartTwoTone";
 import { Badge } from "@mui/material";
 import { useSelector } from "react-redux";
 
-const pages = ["Products"];
+const pages = ["Products", "Subscription"];
 const settings = ["Logout"];
 
 function ResponsiveAppBar() {
