@@ -62,16 +62,16 @@ const index = () => {
     dispatch(addCartItem(product));
     setOpen(true);
     let userId = localStorage.getItem("userId");
-    let user = {
-      productId: product.id,
-    };
+    // let user = {
+    //   productId: product.id,
+    // };
     try {
-      const response = await fetch(`http://localhost:3001/cart/${userId}/add`, {
+      const response = await fetch(`http://localhost:3001/cart/add/${userId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(product),
       });
     } catch (error) {
       console.error(error);

@@ -10,11 +10,17 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { addCartItem, getCart, removeItem } from "@/features/cart/cartSlice";
+import {
+  addCartItem,
+  getCart,
+  removeItem,
+  totalAmount,
+} from "@/features/cart/cartSlice";
 import { useRouter } from "next/router";
 
 export const index = () => {
   const { cartItems } = useSelector((state) => state.counter);
+  const [productPrice, setProductPrice] = useState(0);
   const router = useRouter();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -24,7 +30,7 @@ export const index = () => {
   const itemRemove = async (id) => {
     dispatch(removeItem(id));
     try {
-      let res = await fetch(`http://localhost:3001/cart/${id}`, {
+      let res = await fetch(`http://localhost:3001/cart/add/${id}`, {
         method: "DELETE",
       });
       if (!res.ok) {
@@ -40,14 +46,23 @@ export const index = () => {
   const calculateTotalCost = () => {
     let total = 0;
     cartItems.forEach((item) => {
-      total += item?.product?.actualPrice;
+      let res =
+        item.actualPrice - (item.actualPrice * item.discountedPercent) / 100;
+      total += res;
     });
+    dispatch(totalAmount(total));
     return total;
   };
 
   useEffect(() => {
     setTotalCost(calculateTotalCost());
   }, [cartItems]);
+
+  function getPriceOfProduct(actualPrice, discountedPercent) {
+    let res = actualPrice - (actualPrice * discountedPercent) / 100;
+    // setProductPrice(res);
+    return res;
+  }
 
   return (
     <>
@@ -68,13 +83,19 @@ export const index = () => {
                   <TableRow key={idx}>
                     <TableCell>
                       <img
-                        src={item?.product?.picture}
+                        src={item?.picture}
                         height={"50px"}
-                        alt={item?.product?.title}
+                        alt={item?.title}
                       />
                     </TableCell>
-                    <TableCell>{item?.product?.title}</TableCell>
-                    <TableCell>{item?.product?.actualPrice}</TableCell>
+                    <TableCell>{item?.title}</TableCell>
+                    <TableCell>
+                      {" "}
+                      {getPriceOfProduct(
+                        item.actualPrice,
+                        item.discountedPercent
+                      )}
+                    </TableCell>
                     <TableCell>
                       <ButtonGroup
                         variant="outlined"

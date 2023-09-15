@@ -61,6 +61,19 @@ const index = () => {
               }}
             >
               <Box>
+                {userPlan === item.nickname && (
+                  <Typography
+                    variant="h6"
+                    textAlign={"center"}
+                    sx={{
+                      marginTop: "20px",
+                      backgroundColor: "green",
+                      color: "white",
+                    }}
+                  >
+                    Active Plan
+                  </Typography>
+                )}
                 <Card
                   display={"flex"}
                   justifyContent={"center"}
@@ -95,15 +108,6 @@ const index = () => {
                   >
                     Buy Now
                   </Button>
-                  {userPlan === item.nickname && (
-                    <Typography
-                      variant="h6"
-                      textAlign={"center"}
-                      sx={{ marginTop: "20px" }}
-                    >
-                      Active Plan
-                    </Typography>
-                  )}
                 </Card>
               </Box>
             </Box>

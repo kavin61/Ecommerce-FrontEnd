@@ -5,24 +5,24 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCart } from "@/features/cart/cartSlice";
 
 const index = () => {
-  const { cartItems, user } = useSelector((state) => state.counter);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const { cartItems, user, totalPrice } = useSelector((state) => state.counter);
+  // const [totalPrice, setTotalPrice] = useState(0);
   const dispatch = useDispatch();
   const router = useRouter();
   useEffect(() => {
     dispatch(getCart());
   }, []);
-  function getProduct() {
-    let productItems = cartItems.map((item) => item.product);
-    let totalPrice = productItems.reduce(
-      (acc, curr) => acc + curr.actualPrice,
-      0
-    );
-    setTotalPrice(totalPrice);
-  }
-  useEffect(() => {
-    getProduct();
-  }, [cartItems]);
+  // function getProduct() {
+  //   let productItems = cartItems.map((item) => item.product);
+  //   let totalPrice = productItems.reduce(
+  //     (acc, curr) => acc + curr.actualPrice,
+  //     0
+  //   );
+  //   setTotalPrice(totalPrice);
+  // }
+  // useEffect(() => {
+  //   getProduct();
+  // }, [cartItems]);
 
   const handlePay = async () => {
     const payData = {

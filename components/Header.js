@@ -72,9 +72,8 @@ function ResponsiveAppBar() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
+              fontWeight: "bold",
+              fontSize: "17px",
               color: "inherit",
               textDecoration: "none",
               cursor: "pointer",
@@ -150,7 +149,13 @@ function ResponsiveAppBar() {
               <Button
                 key={page}
                 // onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  fontWeight: "bold",
+                  fontSize: "17px",
+                }}
                 onClick={(e) => {
                   router.push(`/${page.toLowerCase()}`);
                 }}
@@ -174,7 +179,11 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Typography variant="body1" color="white">
+                <Typography
+                  variant="body1"
+                  color="white"
+                  sx={{ fontWeight: "bold" }}
+                >
                   {localName ?? "test"}{" "}
                   {/* Replace 'username' with the actual username */}
                 </Typography>

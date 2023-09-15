@@ -4,6 +4,7 @@ const initialState = {
   cartItems: [],
   user: [],
   shippingInfo: {},
+  totalPrice: 0,
 };
 
 export const counterSlice = createSlice({
@@ -23,6 +24,10 @@ export const counterSlice = createSlice({
         cartItems: [...state.cartItems, payload],
       };
     },
+    totalAmount: (state, { payload }) => {
+      console.log(payload, "totalriceeeeee");
+      state.totalPrice = payload;
+    },
     removeItem: (state, { payload }) => {
       state.cartItems = state.cartItems.filter((item) => item.id !== payload);
     },
@@ -40,15 +45,20 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { addCartItem, removeItem, authUser, saveShippingInfo } =
-  counterSlice.actions;
+export const {
+  addCartItem,
+  removeItem,
+  authUser,
+  saveShippingInfo,
+  totalAmount,
+} = counterSlice.actions;
 
 export default counterSlice.reducer;
 
 export const getCart = createAsyncThunk("/cart/get", async () => {
   let token = localStorage.getItem("userId");
-  let res = await fetch(`http://localhost:3001/cart/${token}`);
+  let res = await fetch(`http://localhost:3001/cart/updated/${token}`);
   let jData = await res.json();
   let product = jData.map((data) => data);
-  return product; 
+  return product;
 });
