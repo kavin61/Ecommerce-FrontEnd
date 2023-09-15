@@ -10,6 +10,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  CircularProgress,
   Snackbar,
   Typography,
 } from "@mui/material";
@@ -17,15 +18,14 @@ import { addCartItem } from "@/features/cart/cartSlice";
 import getCartDataById from "../../components/Header";
 const index = () => {
   const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(false);
   const [originalAmount, setOriginalAmount] = useState();
   const router = useRouter();
   const count = useSelector((state) => state.addCartItem);
   const dispatch = useDispatch();
   const { id } = router.query;
-
-  console.log(product, "kkkkkkkkkkkkkkkkk");
-
   async function getProductById(productId) {
+    setLoading(true);
     let userId = localStorage.getItem("userId");
     try {
       const res = await fetch(
@@ -35,6 +35,7 @@ const index = () => {
 
       setProduct(jsonData);
       discountedPrice(jsonData.actualPrice, jsonData.discountedPercent);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -79,106 +80,120 @@ const index = () => {
   };
 
   return (
-    <Box style={{ height: "100%" }}>
-      <Grid container spacing={4} sx={{ mt: 1 }}>
-        <Grid item xs={3}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img
-              src={product.picture}
-              style={{ height: "400px", width: "250px" }}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={5}>
-          <div>
-            <h1 style={{ textTransform: "uppercase" }}>{product.title}</h1>
-            <h3 style={{ marginTop: "23px" }}>
-              AUTHOR :<span style={{ color: "red" }}> {product.author}</span>
-            </h3>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <h4 style={{ marginTop: "10px" }}>
-                Availability:{" "}
-                <span style={{ color: "red" }}>
-                  {product.stock ? "In Stock" : "Out Of Stock"}
-                </span>
-              </h4>
-            </div>
-            <Typography style={{ lineHeight: "2", marginTop: "20px" }}>
-              {product.description}
-            </Typography>
-          </div>
-        </Grid>
-        <Grid
-          item
-          xs={4}
+    <>
+      {loading && (
+        <Box
           style={{
             display: "flex",
-            alignItems: "center",
             justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
           }}
         >
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Card sx={{ minWidth: 275 }}>
-              <CardActions
-                style={{
-                  display: "flex",
-                  justifyContent: "space-around",
-                  backgroundColor: "lightgrey",
-                }}
-              >
-                <Typography>Buy</Typography>
-                <Typography>
-                  RS.{" "}
-                  {product.actualPrice -
-                    (product.actualPrice * product.discountedPercent) / 100}
-                  <span
-                    style={{ textDecoration: "line-through", color: "red" }}
-                  >
-                    (RS.{product.actualPrice})
+          <CircularProgress color="secondary" />
+        </Box>
+      )}
+      <Box style={{ height: "100%" }}>
+        <Grid container spacing={4} sx={{ mt: 1 }}>
+          <Grid item xs={3}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src={product.picture}
+                style={{ height: "400px", width: "250px" }}
+              />
+            </div>
+          </Grid>
+          <Grid item xs={5}>
+            <div>
+              <h1 style={{ textTransform: "uppercase" }}>{product.title}</h1>
+              <h3 style={{ marginTop: "23px" }}>
+                AUTHOR :<span style={{ color: "red" }}> {product.author}</span>
+              </h3>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <h4 style={{ marginTop: "10px" }}>
+                  Availability:{" "}
+                  <span style={{ color: "red" }}>
+                    {product.stock ? "In Stock" : "Out Of Stock"}
                   </span>
-                </Typography>
-              </CardActions>
-              <CardActions sx={{ justifyContent: "center" }}>
-                <Button
-                  disabled={!product.stock}
-                  size="small"
-                  variant="contained"
-                  color="success"
-                  onClick={() => {
-                    addCart(product.id);
-                  }}
-                >
-                  Add Cart
-                </Button>
-              </CardActions>
-            </Card>
-          </div>
-          <Snackbar
-            open={open}
-            autoHideDuration={1000}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
+                </h4>
+              </div>
+              <Typography style={{ lineHeight: "2", marginTop: "20px" }}>
+                {product.description}
+              </Typography>
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={4}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <Alert
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Card sx={{ minWidth: 275 }}>
+                <CardActions
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    backgroundColor: "lightgrey",
+                  }}
+                >
+                  <Typography>Buy</Typography>
+                  <Typography>
+                    RS.{" "}
+                    {product.actualPrice -
+                      (product.actualPrice * product.discountedPercent) / 100}
+                    <span
+                      style={{ textDecoration: "line-through", color: "red" }}
+                    >
+                      (RS.{product.actualPrice})
+                    </span>
+                  </Typography>
+                </CardActions>
+                <CardActions sx={{ justifyContent: "center" }}>
+                  <Button
+                    disabled={!product.stock}
+                    size="small"
+                    variant="contained"
+                    color="success"
+                    onClick={() => {
+                      addCart(product.id);
+                    }}
+                  >
+                    Add Cart
+                  </Button>
+                </CardActions>
+              </Card>
+            </div>
+            <Snackbar
+              open={open}
+              autoHideDuration={1000}
               onClose={handleClose}
-              severity="success"
-              sx={{ width: "100%" }}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
             >
-              Product Added To Cart
-            </Alert>
-          </Snackbar>
+              <Alert
+                onClose={handleClose}
+                severity="success"
+                sx={{ width: "100%" }}
+              >
+                Product Added To Cart
+              </Alert>
+            </Snackbar>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 };
 

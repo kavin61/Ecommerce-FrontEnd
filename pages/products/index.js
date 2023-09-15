@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Box, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import { useRouter } from "next/router";
@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 
 export default function ImgMediaCard() {
   const [product, setProduct] = useState([]);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   useEffect(() => {
@@ -26,10 +27,12 @@ export default function ImgMediaCard() {
   console.log(token, "token.......");
 
   async function getProduct() {
+    setLoading(true);
     let res = await fetch(`http://localhost:3001/payment/subs/${token}`);
     let jsonData = await res.json();
     console.log(jsonData, "88888888888....");
     setProduct(jsonData);
+    setLoading(false);
   }
   useEffect(() => {
     dispatch(getCart());
@@ -37,6 +40,19 @@ export default function ImgMediaCard() {
 
   return (
     <center>
+      {loading && (
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <CircularProgress color="success" />
+        </Box>
+      )}
+
       <Grid
         container
         spacing={0.2}

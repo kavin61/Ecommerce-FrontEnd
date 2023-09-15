@@ -25,6 +25,7 @@
     "react-dom": "18.2.0",
     "react-redux": "^8.1.2",
     "styled": "^1.0.0",
-    "styled-components": "^6.0.7"
+    "styled-components": "^6.0.7",
+    "swiper": "^10.2.0"
   }
 }

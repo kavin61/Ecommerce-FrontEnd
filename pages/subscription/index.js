@@ -1,8 +1,16 @@
-import { Box, Button, Card, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CircularProgress,
+  Grid,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 const index = () => {
   const [prices, setPrices] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [userPlan, setUserPlan] = useState("");
   const { user } = useSelector((state) => state.counter);
   async function getPriceList() {
@@ -12,10 +20,12 @@ const index = () => {
   }
 
   async function getUserPlan() {
+    setLoading(true);
     let userId = localStorage.getItem("userId");
     let res = await fetch(`http://localhost:3001/payment/plan/${userId}`);
     let jsonData = await res.json();
     setUserPlan(jsonData.userPlan);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -49,6 +59,18 @@ const index = () => {
 
   return (
     <>
+      {loading && (
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <CircularProgress color="secondary" />
+        </Box>
+      )}
       <Grid container spacing={2}>
         {prices.map((item, index) => (
           <Grid item xs={4}>
